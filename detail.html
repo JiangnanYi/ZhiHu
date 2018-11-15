@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta http-equiv="Access-Control-Allow-Origin" content="*">
+
+		<meta http-equiv="content-security-policy">
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<script src="js/jquery-3.3.1.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/icons-extra.css" rel="stylesheet" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+	</head>
+
+	<body>
+		<!-- 主界面菜单同时移动 -->
+		<!-- 侧滑导航根容器 -->
+		<div class="mui-off-canvas-wrap mui-draggable">
+			<!-- 主页面容器 -->
+			<div class="mui-inner-wrap">
+				<!-- 主页面标题 -->
+				<header class="mui-bar mui-bar-nav" style="background: #007AFF;">
+					<div style="margin-top: -5px;">
+						<span class="mui-icon mui-icon-back" style="color: #FFFFFF;" id="submit"></span>
+						<span class="mui-icon-extra mui-icon-extra-share" style="color: #FFFFFF;margin-left: 110px;"></span>
+						<span class="mui-icon-extra mui-icon-extra-heart-filled" style="font-size: 30px;color: #FFFFFF;margin-left:20px ;"></span>
+						<span class="mui-icon-extra mui-icon-extra-comment" style="color: #FFFFFF;left:20px ;">&nbsp;<span style="font-size: 15px;">9</span></span>
+						<span class="mui-icon-extra mui-icon-extra-like" style="color: #FFFFFF;left:40px ;">&nbsp;<span style="font-size: 15px;">36</span></span>
+					</div>
+				</header>
+				<!-- 主页面内容容器 -->
+				<div class="mui-content mui-scroll-wrapper">
+					<div class="mui-scroll" id="boy">
+						<!-- 主界面具体展示内容 -->
+						
+					</div>
+				</div>
+				<div class="mui-off-canvas-backdrop" ></div>
+			</div>
+		</div>
+	</body>
+	<script>
+		mui('.mui-scroll-wrapper').scroll({
+			deceleration: 0.0005
+		});
+		mui.plusReady(function() {
+			var id = plus.webview.currentWebview().id;
+			url = 'http://news-at.zhihu.com/api/4/news/' + id;
+			mui.get(url, {}, function(data) {
+				var link = document.createElement("link");
+				link.rel ="stylesheet";
+				link.type = "text/css";
+				link.href = data.css;
+				document.getElementsByTagName("head")[0].appendChild(link);
+				
+				
+				var boy = document.getElementById("boy");
+				var html = "<div>" + data.body + "</div>";
+				boy.innerHTML += html;
+				$(".img-place-holder").attr("style","background:url("+data.image+") no-repeat;background-size:100% 100%");
+//				document.getElementsByClassName("img-place-holder")[0].style.backgroundImage = "url("+data.image+")";
+//				document.getElementsByClassName("img-place-holder")[0].style.backgroundRepeat = 'no-repeat';
+			}, 'json');
+		});
+		
+		
+		//返回首页
+		var btn = document.getElementById("submit");
+		//监听点击事件
+		btn.addEventListener("tap", function() {
+			mui.openWindow({
+				url: 'index.html'
+			});
+		});
+	</script>
+
+</html>

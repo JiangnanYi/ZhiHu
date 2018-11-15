@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta http-equiv="Access-Control-Allow-Origin" content="*">
+
+		<meta http-equiv="content-security-policy">
+		<title></title>
+		<script src="js/mui.min.js"></script>
+		<link href="css/mui.min.css" rel="stylesheet" />
+		<link href="css/icons-extra.css" rel="stylesheet" />
+		<script type="text/javascript" charset="utf-8">
+			mui.init();
+		</script>
+	</head>
+	<style>
+		header {
+			height: 100px;
+			padding: 10px 20px;
+			background: #00A2ED;
+			font-size: 14px;
+			color: #FFF;
+		}
+		
+		.user-info>div,
+		.user-download>div {
+			display: inline-block;
+			/*字体描边*/
+			-webkit-text-stroke: 0.5px #fff;
+		}
+		
+		.user-name {
+			margin-left: 10px;
+			padding-top: 14px;
+			vertical-align: top;
+			opacity: 0.8;
+		}
+		
+		.head-image img {
+			height: 40px;
+			width: 40px;
+			border-radius: 50%;
+		}
+		
+		.user-download {
+			margin-top: 10px;
+		}
+		
+		.offline-download {
+			margin-left: 20%;
+		}
+		
+		.icon-xingxing,
+		.icon-msnui-download {
+			margin-right: 15px;
+		}
+		
+		.theme-list {
+			font-size: 16px;
+			background: #fff;
+		}
+		
+		-webkit-scrollbar {
+			display: none
+		}
+		
+		.theme-list>div {
+			padding-left: 15px;
+			line-height: 50px;
+			height: 50px;
+		}
+		
+		.home {
+			color: #2AACEC;
+		}
+		
+		.row {
+			transition: all 0.3s;
+			position: relative;
+		}
+		
+		.row-active {
+			background: rgba(221, 221, 221, 0.5);
+		}
+		
+		.icon-weibiaoti1 {
+			font-size: 20px;
+			margin: 0 10px 0 5px;
+		}
+		
+		.icon-youjiantou:before {
+			position: absolute;
+			right: 20%;
+			top: 0;
+			color: #999;
+			opacity: 0.5;
+		}
+	</style>
+
+	<body>
+		<!-- 主界面菜单同时移动 -->
+		<!-- 侧滑导航根容器 -->
+		<div class="mui-off-canvas-wrap mui-draggable">
+			<!-- 主页面容器 -->
+			<div class="mui-inner-wrap">
+				<!-- 菜单容器 -->
+				<aside style="background-color: white;" class="mui-off-canvas-left" id="offCanvasSide">
+					<div class="mui-scroll-wrapper">
+						<div class="mui-scroll">
+							<!-- 菜单具体展示内容 -->
+							<div class="mui-content" id="menu">
+								<header>
+									<div class="user-info">
+										<div class="head-image">
+											<img src="http://image.baidu.com/search/detail?ct=503316480&z=&tn=baiduimagedetail&ipn=d&ie=utf-8&in=24401&cl=2&lm=-1&st=-1&step_word=&rn=1&cs=&ln=1998&fmq=1402900904181_R&ic=0&s=&se=1&sme=0&tab=&width=&height=&face=0&is=&istype=2&ist=&jit=&fr=ala&ala=1&alatpl=others&pos=1&pn=4&word=%E5%9B%BE%E7%89%87%20%E7%BE%8E%E5%A5%B3&di=167970&os=2359732103,2180180207&pi=0&objurl=http%3A%2F%2Fimg3.redocn.com%2F20130724%2FRedocn_2013072409592138.jpg" />
+										</div>
+										<div class="user-name">
+											<span>离线模式</span>
+										</div>
+									</div>
+									<div class="user-download">
+										<div class="user-collect" @click="open_collection">
+											<span class="iconfont icon-xingxing"></span>
+											<span>我的收藏</span>
+										</div>
+										<div class="offline-download">
+											<span class="iconfont icon-msnui-download"></span>
+											<span>离线下载</span>
+										</div>
+									</div>
+								</header>
+								<div class="theme-list">
+									<div class="home" @click="back_index" :class="{'row-active':i===-1}">
+										<span class="iconfont icon-weibiaoti1"></span>
+										<span>首页</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</aside>
+
+				<!-- 主页面标题 -->
+				<header class="mui-bar mui-bar-nav" style="background: #007AFF;">
+					<div style="margin-top: -10px;">
+					<a class="mui-icon mui-action-menu mui-icon-bars mui-pull-left" href="#offCanvasSide" style="color: #FFFFFF;"></a>
+					<h1 class="mui-title" style="margin-left:-210px ;color: #FFFFFF;">首页
+						<span class="mui-icon-extra mui-icon-extra-notice" style="float: right;color: #FFFFFF;"></span>
+					</h1>
+					<span class="mui-icon mui-icon-more" style="float:right;color: #000000;color: #FFFFFF;"></span>
+				</div>
+				</header>
+				<!-- 主页面内容容器 -->
+				<div class="mui-content mui-scroll-wrapper">
+					<div class="mui-scroll" id="div1">
+						<!-- 主界面具体展示内容 -->
+						<div id="slider" class="mui-slider">
+							<div class="mui-slider-group mui-slider-loop" id="imgPlayer">
+
+							</div>
+							<div class="mui-slider-indicator" id="imgDian"></div>
+						</div>
+						
+						<div class='mui-content' style="height: 50px;color: #AAAAAA;line-height: 50px;font-size: 13px;">今日热闻</div>
+						<ul class="mui-table-view" id="ul1">
+							
+						</ul>
+						
+					</div>
+				</div>
+				<div class="mui-off-canvas-backdrop"></div>
+			</div>
+		</div>
+	</body>
+	<script>
+		var gallery = mui('.mui-slider');
+		gallery.slider({
+			interval: 5000 //自动轮播周期，若为0则不自动播放，默认为0；
+		});
+		mui('.mui-scroll-wrapper').scroll({
+			deceleration: 0.0005
+		});
+		mui.get('http://news.at.zhihu.com/api/4/news/before/20181114', {}, function(data) {
+			var ul1 = document.getElementById("ul1");
+			mui.each(data.stories, function(index, obj) {
+				var html = "<li class='mui-table-view-cell mui-media' id=" + obj.id+">";
+				html += "<a href='javascript:;'>";
+				html += "<img class='mui-media-object mui-pull-right' src='" + obj.images + "'>";
+				html += "<div class='mui-media-body'>";
+				html += "<p class='mui-ellipsis'>" + obj.title + "</p>";
+				html += "</div>";
+				html += "</a>";
+				html += "</li>";
+				ul1.innerHTML += html;
+			})
+
+		}, 'json');
+		
+		
+
+		mui.get(' http://news.at.zhihu.com/api/4/news/before/20181113', {}, function(data) {
+			var html = "";
+			var dian = "<div class='mui-indicator mui-active'></div>";
+			html += "<div class='mui-slider-item mui-slider-item-duplicate' myimg="+data.stories[3].id+">";
+			html += "<a href='#'>";
+			html += "<img src='" + data.stories[3].images + "' width=400 height=300>";
+			html += "</a>";
+			html += "<div style='position: absolute;top: 240px;'>";
+			html += "<p style='margin-top:-80px ; font-size: 20px; color: #FFFFFF;'>&emsp;" + data.stories[3].title + "</p>";
+			html += "</div>";
+			html += "</div>";
+			for(var i = 0; i < 4; i++) {
+				var o = data.stories[i];
+				html += "<div class='mui-slider-item' myimg="+o.id+">";
+				html += "<a href='#'>";
+				html += "<img src='" + o.images + "' width=400 height=300>";
+
+				html += "</a>";
+				html += "<div style='position: absolute;top: 240px;'>";
+				html += "<p style='margin-top:-80px ;font-size: 20px; color: #FFFFFF;'>&emsp;" + o.title + "</p>";
+				html += "</div>";
+				html += "</div>";
+
+				if(i > 0) {
+					dian += "<div class='mui-indicator'></div>";
+				}
+			}
+			html += "<div class='mui-slider-item mui-slider-item-duplicate' myimg="+data.stories[0].id+">";
+			html += "<a href='#'>";
+			html += "<img src='" + data.stories[0].images + "' width=400 height=300>";
+
+			html += "</a>";
+			html += "<div style='position: absolute;top: 240px;'>";
+			html += "<p style='margin-top:-80px ;font-size: 20px; color: #FFFFFF;'>&emsp;" + data.stories[0].title + "</p>";
+			html += "</div>";
+			html += "</div>";
+
+			document.getElementById("imgPlayer").innerHTML += html;
+			var gallery = mui('.mui-slider');
+			gallery.slider({
+				interval: 2000 //自动轮播周期，若为0则不自动播放，默认为0；
+			});
+			document.getElementById("imgDian").innerHTML += dian;
+		}, 'json');
+		mui(".mui-table-view").on('tap', '.mui-table-view-cell', function() {
+			//获取id
+			var id = this.getAttribute("id");
+
+			//传值给详情页面，通知加载新数据
+			//打开新闻详情
+			mui.openWindow({
+				id:id,
+				url: 'detail.html',
+				extras: {
+					id: id
+                  }
+			});
+		});
+		
+		mui("#slider").on('tap', '.mui-slider-item', function() {
+			//获取id
+			var id = this.getAttribute("myimg");
+
+			//传值给详情页面，通知加载新数据
+			//打开新闻详情
+			mui.openWindow({
+				id:id,
+				url: 'detail.html',
+				extras: {
+					id: id
+                  }
+			});
+		});
+	</script>
+
+</html>
